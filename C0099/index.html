@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liens Réseaux Sociaux</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>McDonald's - Service NFC</title>
     <style>
         * {
             margin: 0;
@@ -12,324 +11,832 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --primary-red: #DA291C;
-            --primary-yellow: #FFC72C;
-            --dark-bg: #27251F;
-            --light-text: #FFFFFF;
-            --shadow: rgba(218, 41, 28, 0.3);
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFC72C 0%, #DA291C 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1814 100%);
-            min-height: 100vh;
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 500px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #DA291C;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: #FFC72C;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            font-weight: bold;
+            color: #DA291C;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-menu {
+            background: #FFC72C;
+            color: #292929;
+        }
+
+        .btn-call {
+            background: #27AE60;
+            color: white;
+        }
+
+        .icon {
+            font-size: 24px;
+        }
+
+        .menu-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .menu-modal.active {
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            position: relative;
-            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--primary-red) 0%, transparent 70%);
-            opacity: 0.1;
-            top: -250px;
-            right: -250px;
-            border-radius: 50%;
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        body::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--primary-yellow) 0%, transparent 70%);
-            opacity: 0.08;
-            bottom: -200px;
-            left: -200px;
-            border-radius: 50%;
-            animation: pulse 10s ease-in-out infinite reverse;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.1; }
-            50% { transform: scale(1.1); opacity: 0.15; }
-        }
-
-        .container {
-            max-width: 480px;
+        .menu-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
             width: 100%;
-            position: relative;
-            z-index: 1;
-            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            max-height: 80vh;
+            overflow-y: auto;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .logo-container {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-out 0.2s backwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .logo {
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--primary-red) 0%, #b81e13 100%);
-            border-radius: 30px;
+        .menu-header {
+            background: #DA291C;
+            color: white;
+            padding: 20px;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            box-shadow: 
-                0 20px 60px var(--shadow),
-                0 0 0 8px rgba(255, 199, 44, 0.1);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .logo:hover {
-            transform: scale(1.05) rotate(-3deg);
-        }
-
-        .logo::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .logo-text {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 72px;
-            color: var(--primary-yellow);
-            font-weight: bold;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-            letter-spacing: 2px;
-        }
-
-        .title {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 32px;
-            color: var(--light-text);
-            text-align: center;
-            margin-bottom: 12px;
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            margin-bottom: 40px;
-            font-weight: 400;
-        }
-
-        .links-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .social-link {
-            display: flex;
-            align-items: center;
-            padding: 20px 28px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            text-decoration: none;
-            color: var(--light-text);
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-            animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-        }
-
-        .social-link:nth-child(1) { animation-delay: 0.3s; }
-        .social-link:nth-child(2) { animation-delay: 0.4s; }
-        .social-link:nth-child(3) { animation-delay: 0.5s; }
-        .social-link:nth-child(4) { animation-delay: 0.6s; }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .social-link::before {
-            content: '';
-            position: absolute;
+            position: sticky;
             top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 199, 44, 0.2), transparent);
-            transition: left 0.5s;
         }
 
-        .social-link:hover::before {
-            left: 100%;
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
         }
 
-        .social-link:hover {
-            transform: translateX(8px) scale(1.02);
-            border-color: var(--primary-yellow);
-            background: rgba(255, 199, 44, 0.1);
-            box-shadow: 0 8px 32px rgba(255, 199, 44, 0.2);
-        }
-
-        .social-link:active {
-            transform: translateX(8px) scale(0.98);
-        }
-
-        .icon {
-            width: 32px;
-            height: 32px;
-            margin-right: 16px;
-            border-radius: 8px;
+        .menu-tabs {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
-            transition: transform 0.3s ease;
+            background: #F8F9FA;
+            overflow-x: auto;
+            position: sticky;
+            top: 60px;
+            z-index: 10;
         }
 
-        .social-link:hover .icon {
-            transform: rotate(12deg) scale(1.1);
+        .menu-tabs::-webkit-scrollbar {
+            height: 4px;
         }
 
-        .facebook .icon { background: #1877F2; }
-        .instagram .icon { background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF); }
-        .google .icon { background: #4285F4; }
-        .tiktok .icon { background: #000000; }
+        .menu-tabs::-webkit-scrollbar-thumb {
+            background: #DA291C;
+            border-radius: 4px;
+        }
 
-        .arrow {
-            margin-left: auto;
-            font-size: 20px;
-            opacity: 0.6;
+        .tab {
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
         }
 
-        .social-link:hover .arrow {
-            opacity: 1;
-            transform: translateX(4px);
+        .tab:hover {
+            color: #DA291C;
         }
 
+        .tab.active {
+            color: #DA291C;
+            border-bottom-color: #DA291C;
+            background: white;
+        }
+
+        .menu-items {
+            padding: 20px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #FFC72C 0%, #FFD95A 100%);
+            border-radius: 12px;
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .category-info h3 {
+            font-size: 24px;
+            color: #292929;
+            margin-bottom: 5px;
+        }
+
+        .category-info p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .menu-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 70px;
+            height: 70px;
+            background: #F8F9FA;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            flex-shrink: 0;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: bold;
+            color: #292929;
+            margin-bottom: 5px;
+        }
+
+        .item-description {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .item-price {
+            color: #DA291C;
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #27AE60;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.show {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .table-info {
+            background: #F8F9FA;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .table-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #DA291C;
+        }
+
+        /* Responsive adjustments for mobile */
         @media (max-width: 480px) {
+            .container {
+                border-radius: 0;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
             .logo {
-                width: 120px;
-                height: 120px;
+                width: 100px;
+                height: 100px;
+                font-size: 50px;
             }
 
-            .logo-text {
-                font-size: 60px;
+            h1 {
+                font-size: 24px;
             }
 
-            .title {
-                font-size: 28px;
+            .content {
+                padding: 20px;
             }
 
-            .social-link {
-                padding: 18px 24px;
+            .btn {
+                padding: 18px;
+                font-size: 16px;
+            }
+
+            .menu-content {
+                border-radius: 0;
+                max-height: 100vh;
+            }
+
+            .menu-header {
+                padding: 15px;
+            }
+
+            .menu-header h2 {
+                font-size: 20px;
+            }
+
+            .tab {
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .category-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 35px;
+            }
+
+            .category-info h3 {
+                font-size: 20px;
+            }
+
+            .item-image {
+                width: 60px;
+                height: 60px;
+                font-size: 30px;
+            }
+
+            .item-name {
                 font-size: 15px;
+            }
+
+            .item-description {
+                font-size: 11px;
+            }
+
+            .item-price {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo-container">
-            <div class="logo">
-                <div class="logo-text">M</div>
-            </div>
-            <h1 class="title">Suivez-nous</h1>
-            <p class="subtitle">Rejoignez notre communauté sur les réseaux</p>
+        <div class="header">
+            <div class="logo">M</div>
+            <h1>McDonald's</h1>
+            <p class="subtitle">Service à table NFC</p>
         </div>
 
-        <div class="links-container">
-            <a href="https://www.facebook.com/votre-page" class="social-link facebook" target="_blank" rel="noopener">
-                <div class="icon">📘</div>
-                <span>Facebook</span>
-                <span class="arrow">→</span>
-            </a>
+        <div class="content">
+            <div class="table-info">
+                <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Table</div>
+                <div class="table-number" id="tableNumber">12</div>
+            </div>
 
-            <a href="https://www.instagram.com/votre-compte" class="social-link instagram" target="_blank" rel="noopener">
-                <div class="icon">📷</div>
-                <span>Instagram</span>
-                <span class="arrow">→</span>
-            </a>
+            <div class="button-group">
+                <button class="btn btn-menu" onclick="openMenu()">
+                    <span class="icon">🍔</span>
+                    <span>Consulter le Menu</span>
+                </button>
 
-            <a href="https://g.page/r/votre-etablissement/review" class="social-link google" target="_blank" rel="noopener">
-                <div class="icon">⭐</div>
-                <span>Avis Google</span>
-                <span class="arrow">→</span>
-            </a>
+                <button class="btn btn-call" onclick="callServer()">
+                    <span class="icon">🔔</span>
+                    <span>Appeler le Serveur</span>
+                </button>
+            </div>
 
-            <a href="https://www.tiktok.com/@votre-compte" class="social-link tiktok" target="_blank" rel="noopener">
-                <div class="icon">🎵</div>
-                <span>TikTok</span>
-                <span class="arrow">→</span>
-            </a>
         </div>
     </div>
 
-    <script>
-        // Animation au chargement
-        document.addEventListener('DOMContentLoaded', () => {
-            const links = document.querySelectorAll('.social-link');
+    <!-- Menu Modal -->
+    <div class="menu-modal" id="menuModal">
+        <div class="menu-content">
+            <div class="menu-header">
+                <h2>Notre Menu</h2>
+                <button class="close-btn" onclick="closeMenu()">&times;</button>
+            </div>
             
-            links.forEach((link, index) => {
-                link.style.animationDelay = `${0.3 + index * 0.1}s`;
-            });
-        });
+            <div class="menu-tabs">
+                <button class="tab active" onclick="showTab('burgers')">🍔 Burgers</button>
+                <button class="tab" onclick="showTab('entrees')">🍟 Entrées</button>
+                <button class="tab" onclick="showTab('pizzas')">🍕 Pizzas</button>
+                <button class="tab" onclick="showTab('boissons')">🥤 Boissons</button>
+                <button class="tab" onclick="showTab('desserts')">🍦 Desserts</button>
+            </div>
 
-        // Effet de vibration au clic
-        document.querySelectorAll('.social-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                this.style.animation = 'none';
-                setTimeout(() => {
-                    this.style.animation = '';
-                }, 10);
-            });
+            <div class="menu-items">
+                <!-- Burgers Tab -->
+                <div class="tab-content active" id="burgers">
+                    <div class="category-header">
+                        <div class="category-icon">🍔</div>
+                        <div class="category-info">
+                            <h3>Burgers</h3>
+                            <p>Nos burgers emblématiques</p>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍔</div>
+                        <div class="item-info">
+                            <div class="item-name">Big Mac</div>
+                            <div class="item-description">Double steak, sauce Big Mac, salade, cornichons</div>
+                        </div>
+                        <div class="item-price">5,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍗</div>
+                        <div class="item-info">
+                            <div class="item-name">McChicken</div>
+                            <div class="item-description">Poulet pané croustillant, salade, sauce</div>
+                        </div>
+                        <div class="item-price">4,90€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">👑</div>
+                        <div class="item-info">
+                            <div class="item-name">Royal Deluxe</div>
+                            <div class="item-description">Bacon, fromage, salade, tomate</div>
+                        </div>
+                        <div class="item-price">6,20€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🐟</div>
+                        <div class="item-info">
+                            <div class="item-name">Filet-O-Fish</div>
+                            <div class="item-description">Poisson pané, sauce tartare, fromage</div>
+                        </div>
+                        <div class="item-price">4,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🌱</div>
+                        <div class="item-info">
+                            <div class="item-name">McVeggie</div>
+                            <div class="item-description">Galette végétale, salade, tomate</div>
+                        </div>
+                        <div class="item-price">5,20€</div>
+                    </div>
+                </div>
+
+                <!-- Entrées Tab -->
+                <div class="tab-content" id="entrees">
+                    <div class="category-header">
+                        <div class="category-icon">🍟</div>
+                        <div class="category-info">
+                            <h3>Entrées</h3>
+                            <p>Pour accompagner votre repas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍟</div>
+                        <div class="item-info">
+                            <div class="item-name">Frites Petites</div>
+                            <div class="item-description">Pommes de terre dorées et croustillantes</div>
+                        </div>
+                        <div class="item-price">2,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍟</div>
+                        <div class="item-info">
+                            <div class="item-name">Frites Moyennes</div>
+                            <div class="item-description">Portion moyenne de nos frites célèbres</div>
+                        </div>
+                        <div class="item-price">2,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍟</div>
+                        <div class="item-info">
+                            <div class="item-name">Frites Grandes</div>
+                            <div class="item-description">Grande portion pour les gros appétits</div>
+                        </div>
+                        <div class="item-price">3,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🧅</div>
+                        <div class="item-info">
+                            <div class="item-name">Potatoes</div>
+                            <div class="item-description">Pommes de terre en quartiers épicés</div>
+                        </div>
+                        <div class="item-price">2,80€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🥗</div>
+                        <div class="item-info">
+                            <div class="item-name">Salade Caesar</div>
+                            <div class="item-description">Salade, poulet grillé, parmesan, croûtons</div>
+                        </div>
+                        <div class="item-price">6,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🥕</div>
+                        <div class="item-info">
+                            <div class="item-name">P'tites Carottes</div>
+                            <div class="item-description">Bâtonnets de carottes fraîches</div>
+                        </div>
+                        <div class="item-price">1,50€</div>
+                    </div>
+                </div>
+
+                <!-- Pizzas Tab -->
+                <div class="tab-content" id="pizzas">
+                    <div class="category-header">
+                        <div class="category-icon">🍕</div>
+                        <div class="category-info">
+                            <h3>Pizzas</h3>
+                            <p>Pizzas fraîches et savoureuses</p>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍕</div>
+                        <div class="item-info">
+                            <div class="item-name">Pizza Margherita</div>
+                            <div class="item-description">Sauce tomate, mozzarella, basilic frais</div>
+                        </div>
+                        <div class="item-price">7,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍕</div>
+                        <div class="item-info">
+                            <div class="item-name">Pizza Pepperoni</div>
+                            <div class="item-description">Sauce tomate, mozzarella, pepperoni</div>
+                        </div>
+                        <div class="item-price">8,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍕</div>
+                        <div class="item-info">
+                            <div class="item-name">Pizza 4 Fromages</div>
+                            <div class="item-description">Mozzarella, gorgonzola, parmesan, chèvre</div>
+                        </div>
+                        <div class="item-price">9,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍕</div>
+                        <div class="item-info">
+                            <div class="item-name">Pizza Végétarienne</div>
+                            <div class="item-description">Légumes grillés, champignons, olives</div>
+                        </div>
+                        <div class="item-price">8,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍕</div>
+                        <div class="item-info">
+                            <div class="item-name">Pizza Royale</div>
+                            <div class="item-description">Jambon, champignons, mozzarella</div>
+                        </div>
+                        <div class="item-price">8,80€</div>
+                    </div>
+                </div>
+
+                <!-- Boissons Tab -->
+                <div class="tab-content" id="boissons">
+                    <div class="category-header">
+                        <div class="category-icon">🥤</div>
+                        <div class="category-info">
+                            <h3>Boissons</h3>
+                            <p>Pour vous rafraîchir</p>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🥤</div>
+                        <div class="item-info">
+                            <div class="item-name">Coca-Cola</div>
+                            <div class="item-description">33cl / 50cl</div>
+                        </div>
+                        <div class="item-price">2,20€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🥤</div>
+                        <div class="item-info">
+                            <div class="item-name">Coca-Cola Zéro</div>
+                            <div class="item-description">33cl / 50cl</div>
+                        </div>
+                        <div class="item-price">2,20€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍊</div>
+                        <div class="item-info">
+                            <div class="item-name">Fanta Orange</div>
+                            <div class="item-description">33cl / 50cl</div>
+                        </div>
+                        <div class="item-price">2,20€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍋</div>
+                        <div class="item-info">
+                            <div class="item-name">Sprite</div>
+                            <div class="item-description">33cl / 50cl</div>
+                        </div>
+                        <div class="item-price">2,20€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">💧</div>
+                        <div class="item-info">
+                            <div class="item-name">Eau Minérale</div>
+                            <div class="item-description">50cl</div>
+                        </div>
+                        <div class="item-price">1,80€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🧃</div>
+                        <div class="item-info">
+                            <div class="item-name">Jus d'Orange</div>
+                            <div class="item-description">100% pur jus - 25cl</div>
+                        </div>
+                        <div class="item-price">2,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">☕</div>
+                        <div class="item-info">
+                            <div class="item-name">Café</div>
+                            <div class="item-description">Expresso / Allongé</div>
+                        </div>
+                        <div class="item-price">1,50€</div>
+                    </div>
+                </div>
+
+                <!-- Desserts Tab -->
+                <div class="tab-content" id="desserts">
+                    <div class="category-header">
+                        <div class="category-icon">🍦</div>
+                        <div class="category-info">
+                            <h3>Desserts</h3>
+                            <p>Pour terminer en douceur</p>
+                        </div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍦</div>
+                        <div class="item-info">
+                            <div class="item-name">Sundae Caramel</div>
+                            <div class="item-description">Glace vanille, sauce caramel</div>
+                        </div>
+                        <div class="item-price">2,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍦</div>
+                        <div class="item-info">
+                            <div class="item-name">Sundae Chocolat</div>
+                            <div class="item-description">Glace vanille, sauce chocolat</div>
+                        </div>
+                        <div class="item-price">2,00€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍨</div>
+                        <div class="item-info">
+                            <div class="item-name">McFlurry Oreo</div>
+                            <div class="item-description">Glace vanille avec morceaux d'Oreo</div>
+                        </div>
+                        <div class="item-price">3,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍨</div>
+                        <div class="item-info">
+                            <div class="item-name">McFlurry M&M's</div>
+                            <div class="item-description">Glace vanille avec M&M's</div>
+                        </div>
+                        <div class="item-price">3,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🥧</div>
+                        <div class="item-info">
+                            <div class="item-name">Apple Pie</div>
+                            <div class="item-description">Chausson aux pommes croustillant</div>
+                        </div>
+                        <div class="item-price">2,50€</div>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <div class="item-image">🍪</div>
+                        <div class="item-info">
+                            <div class="item-name">Cookies</div>
+                            <div class="item-description">3 cookies aux pépites de chocolat</div>
+                        </div>
+                        <div class="item-price">2,20€</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // Fonction pour ouvrir le menu
+        function openMenu() {
+            document.getElementById('menuModal').classList.add('active');
+        }
+
+        // Fonction pour fermer le menu
+        function closeMenu() {
+            document.getElementById('menuModal').classList.remove('active');
+        }
+
+        // Fonction pour changer d'onglet
+        function showTab(tabName) {
+            // Masquer tous les contenus
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            // Désactiver tous les onglets
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Activer l'onglet sélectionné
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Fonction pour appeler le serveur
+        function callServer() {
+            const tableNum = document.getElementById('tableNumber').textContent;
+            showNotification(`Serveur appelé pour la table ${tableNum} ! 🔔`);
+            
+            // Simulation d'envoi à un serveur
+            console.log(`Appel serveur pour table ${tableNum}`);
+        }
+
+        // Fonction pour afficher une notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Fermer le modal en cliquant à l'extérieur
+        document.getElementById('menuModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeMenu();
+            }
         });
     </script>
 </body>
